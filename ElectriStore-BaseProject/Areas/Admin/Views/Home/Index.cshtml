@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ElectriStore_BaseProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Admin page</h1>
+
+@foreach( var item in Model)
+{
+    <p>Product Name: @item.Name</p>
+    <p>Product Price: @item.SalePrice</p>
+    <p>Product Stock: @item.StockQuantity</p>
+}
