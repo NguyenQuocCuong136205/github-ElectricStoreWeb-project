@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ElectriStore_BaseProject.Models.Product>
+﻿@model IEnumerable<ElectriStore_BaseProject.DTOs.ProductDisplayDTO>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -9,6 +9,13 @@
 @foreach( var item in Model)
 {
     <p>Product Name: @item.Name</p>
+    <p>Product Brand @item.Brand</p>
+    <p>Product Category: @item.Category</p>
     <p>Product Price: @item.SalePrice</p>
     <p>Product Stock: @item.StockQuantity</p>
+    <p>Product MadeIn: @item.MadeIn</p>
+    <p>Product Rating: @item.Rating</p>
+    <p>Product Description: @item.Description</p>
+    <p>Product Active: @item.IsActive</p>
+
 }

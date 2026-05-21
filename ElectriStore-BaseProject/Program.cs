@@ -1,5 +1,10 @@
 using ElectriStore_BaseProject.Models;
-using ElectriStore_BaseProject.Repositories;
+using ElectriStore_BaseProject.Repositories.Product;
+using ElectriStore_BaseProject.Repositories.Products;
+using ElectriStore_BaseProject.Repositories.Users;
+using ElectriStore_BaseProject.Services.Products;
+using ElectriStore_BaseProject.Services.Users;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +18,21 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //dependency injection
 builder.Services.AddDbContext<ElectronicStoreContext>(options => options.UseSqlServer(connectionString));
 
-// thêm product repository vào DI container
+// thêm repositories vào DI container
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductDTORepository, ProductDTORepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// thêm services vào DI container
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// Đăng ký Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/User/Login";
+        options.AccessDeniedPath = "/User/AccessDenied";
+    });
 
 var app = builder.Build();
 
@@ -29,6 +47,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication(); // Kích hoạt xác thực Cookie
 app.UseAuthorization();
 
 app.MapStaticAssets();

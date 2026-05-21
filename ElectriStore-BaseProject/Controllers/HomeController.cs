@@ -1,4 +1,5 @@
 using ElectriStore_BaseProject.Models;
+using ElectriStore_BaseProject.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,11 +7,15 @@ namespace ElectriStore_BaseProject.Controllers
 {
     public class HomeController : Controller
     {
-        ElectronicStoreContext db = new ElectronicStoreContext();
-        public IActionResult Index()
+
+        public HomeController()
         {
-            var all_product = db.Products.ToList();
-            return View(all_product);
+
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View();
         }
 
         public IActionResult Privacy()
