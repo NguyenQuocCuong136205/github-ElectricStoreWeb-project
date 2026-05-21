@@ -1,4 +1,4 @@
-﻿using ElectriStore_BaseProject.DTOs.Login;
+using ElectriStore_BaseProject.DTOs.Login;
 using ElectriStore_BaseProject.DTOs.Registers;
 
 namespace ElectriStore_BaseProject.Services.Users
@@ -9,5 +9,6 @@ namespace ElectriStore_BaseProject.Services.Users
 
         Task<RegisterResultDTO> RegisterAsync(RegisterRequestDTO registerRequest);
 
+        Task<ElectriStore_BaseProject.Models.User?> GetUserByEmailAsync(string email);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
@@ -70,7 +71,7 @@ namespace ElectriStore_BaseProject.Controllers
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return View("Login");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -93,6 +94,24 @@ namespace ElectriStore_BaseProject.Controllers
             TempData["ErrorMessage"] = result.ErrorMessage;
             return View(requestForm);
         }
-    }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Information()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var user = await _userService.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            return View(user);
+        }
+    }
 }

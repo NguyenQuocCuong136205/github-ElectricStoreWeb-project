@@ -144,6 +144,11 @@ namespace ElectriStore_BaseProject.Services.Users
             return Regex.IsMatch(password, pattern);
         }
 
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _userRepository.GetUserByEmailAsync(email);
+        }
+
         // Hàm băm mật khẩu bảo mật SHA256
         private string HashPassword(string? password)
         {
