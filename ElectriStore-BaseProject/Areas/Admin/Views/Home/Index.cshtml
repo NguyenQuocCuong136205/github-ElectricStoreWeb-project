@@ -1,21 +1,14 @@
-﻿@model IEnumerable<ElectriStore_BaseProject.DTOs.ProductDisplayDTO>
-
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Kiểm tra đăng nhập và quyền Admin trước khi hiển thị trang quản trị *@
+@if (User.Identity == null || !User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
+{
+    TempData["ErrorMessage"] = "Tài khoản không được xác minh hoặc không có quyền truy cập Admin!";
+    Context.Response.Redirect("/");
+    return;
 }
 
 <h1>Admin page</h1>
-
-@foreach( var item in Model)
-{
-    <p>Product Name: @item.Name</p>
-    <p>Product Brand @item.Brand</p>
-    <p>Product Category: @item.Category</p>
-    <p>Product Price: @item.SalePrice</p>
-    <p>Product Stock: @item.StockQuantity</p>
-    <p>Product MadeIn: @item.MadeIn</p>
-    <p>Product Rating: @item.Rating</p>
-    <p>Product Description: @item.Description</p>
-    <p>Product Active: @item.IsActive</p>
-
-}

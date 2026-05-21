@@ -15,9 +15,8 @@ namespace ElectriStore_BaseProject.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var all_product = await productService.GetProductDisplayDTOsAsync();
 
-            return View(all_product);
+            return View();
         }
 
         //public async Task<IActionResult> ShowProductById()
