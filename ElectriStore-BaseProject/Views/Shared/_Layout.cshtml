@@ -27,7 +27,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Đăng ký">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Đăng nhập">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Đăng xuất</a>
                         </li>
                     </ul>
                 </div>
@@ -49,5 +55,44 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Cấu hình định dạng cửa sổ Toast nhỏ ở góc trên bên phải
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000, // Tự động ẩn sau 3 giây
+        timerProgressBar: true,
+        didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+        });
+
+        // Kiểm tra xem Server có gửi TempData["SuccessMessage"] về không
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Toast.fire({
+                icon: 'success',
+                title: '@TempData["SuccessMessage"]'
+                });
+            </text>
+        }
+
+        // Kiểm tra xem Server có gửi TempData["ErrorMessage"] về không (nếu có dùng)
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>
+                Toast.fire({
+                icon: 'error',
+                title: '@TempData["ErrorMessage"]'
+                });
+            </text>
+        }
+    </script>
+
 </body>
 </html>

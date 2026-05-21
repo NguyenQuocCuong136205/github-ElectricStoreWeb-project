@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace ElectriStore_BaseProject.Controllers
@@ -20,20 +21,16 @@ namespace ElectriStore_BaseProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
-        {
-            return View();  
-        }
+        public ActionResult Login() => View();
 
         [HttpPost]
-        public async Task<ActionResult> Login(LoginRequestDTO model) {
-            //
+        public async Task<ActionResult> Login(LoginRequestDTO loginForm) {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(loginForm);
             }
 
-            LoginResultDTO result = await _userService.LoginAsync(model);
+            LoginResultDTO result = await _userService.LoginAsync(loginForm);
 
             // if login successfully -> provider that account a cookie
             if (result.Success)
@@ -61,11 +58,12 @@ namespace ElectriStore_BaseProject.Controllers
                     return RedirectToAction("Index", "Home", new { area = "Admin"});
                 }
 
+                TempData["SuccessMessage"] = "Chào mừng quay trở lại!";
                 return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "Đăng nhập thất bại");
-            return View(model); 
+            return View(loginForm); 
         }
 
         [HttpGet]
@@ -76,21 +74,25 @@ namespace ElectriStore_BaseProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
-        {
-            return View();
-        }
+        public ActionResult Register() => View();
 
         [HttpPost]
-        //public async Task<ActionResult> Register(RegisterRequest registerRequest)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(registerRequest);
-        //    }
+        public async Task<ActionResult> Register(RegisterRequestDTO requestForm)
+        {
+            if (!ModelState.IsValid) return View(requestForm);
 
+            var result = await _userService.RegisterAsync(requestForm);
 
-        //}
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Đăng ký tài khoản thành công!";
+                return RedirectToAction("Login", "User");
+            }
+
+            ModelState.AddModelError(string.Empty, result.ErrorMessage ?? "Đăng ký thất bại");
+            TempData["ErrorMessage"] = result.ErrorMessage;
+            return View(requestForm);
+        }
     }
 
 }
