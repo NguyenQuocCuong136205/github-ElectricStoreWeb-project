@@ -1,4 +1,4 @@
-﻿using ElectriStore_BaseProject.Models;
+using ElectriStore_BaseProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectriStore_BaseProject.Repositories.Brands
@@ -19,7 +19,13 @@ namespace ElectriStore_BaseProject.Repositories.Brands
 
         public async Task<Brand?> GetBrandByIdAsync(int id)
         {
-            var brand = await _context.Brands.SingleOrDefaultAsync(b => b.Id == id);
+            var brand = await _context.Brands.Include(b => b.Products).SingleOrDefaultAsync(b => b.Id == id);
+            return brand;
+        }
+
+        public async Task<Brand?> GetBrandByNameAsync(string name)
+        {
+            var brand = await _context.Brands.SingleOrDefaultAsync(b => b.BrandName == name);
             return brand;
         }
 

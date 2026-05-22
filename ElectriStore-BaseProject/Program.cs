@@ -3,9 +3,15 @@ using ElectriStore_BaseProject.Repositories.Brands;
 using ElectriStore_BaseProject.Repositories.Product;
 using ElectriStore_BaseProject.Repositories.Products;
 using ElectriStore_BaseProject.Repositories.Users;
+using ElectriStore_BaseProject.Repositories.Categories;
+using ElectriStore_BaseProject.Repositories.Countries;
+using ElectriStore_BaseProject.Repositories.Suppliers;
 using ElectriStore_BaseProject.Services.Brands;
 using ElectriStore_BaseProject.Services.Products;
 using ElectriStore_BaseProject.Services.Users;
+using ElectriStore_BaseProject.Services.Categories;
+using ElectriStore_BaseProject.Services.Countries;
+using ElectriStore_BaseProject.Services.Suppliers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,11 +31,17 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductDTORepository, ProductDTORepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 
 // thêm services vào DI container
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICountryService, CountryService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 // Đăng ký Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

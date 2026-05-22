@@ -1,20 +1,20 @@
 ﻿@model ElectriStore_BaseProject.Models.Brand
 
 @{
-    ViewData["Title"] = "Brand details page";
+    ViewData["Title"] = "Brand detail page";
 }
 
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <title>@ViewData["Title"]</title>
-</head>
+    <head>
+        <title>@ViewData["Title"]</title>
+    </head>
 
-<body>
-    <form asp-action="Details" method="post">
+    <body>
+    <form asp-action="Create" method="post">
         <!-- Validation Summary -->
         <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3 py-2 small"></div>
-    
+
         <div class="mb-3">
             <label asp-for="BrandName" class="form-label small fw-bold">Tên thương hiệu</label>
             <input asp-for="BrandName" class="form-control" placeholder="Nhập tên thương hiệu mới..." />
@@ -22,7 +22,7 @@
         </div>
         <!-- Submit Button -->
         <div class="d-grid gap-2 mt-4">
-            <button type="submit" class="btn btn-primary py-2">Thay đổi</button>
+            <button type="submit" class="btn btn-primary py-2">Thêm mới</button>
         </div>
     </form>
 
@@ -42,17 +42,6 @@
         }
         });
 
-        // Kiểm tra xem Server có gửi TempData["SuccessMessage"] về không
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <text>
-                Toast.fire({
-                icon: 'success',
-                title: '@TempData["SuccessMessage"]'
-                });
-            </text>
-        }
-
         // Kiểm tra xem Server có gửi TempData["ErrorMessage"] về không (nếu có dùng)
         @if (TempData["ErrorMessage"] != null)
         {
@@ -64,5 +53,6 @@
             </text>
         }
     </script>
-</body>
+
+    </body>
 </html>

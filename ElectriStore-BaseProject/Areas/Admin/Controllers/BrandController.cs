@@ -1,4 +1,4 @@
-﻿using ElectriStore_BaseProject.Models;
+using ElectriStore_BaseProject.Models;
 using ElectriStore_BaseProject.Services.Brands;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,40 +7,95 @@ namespace ElectriStore_BaseProject.Areas.Admin.Controllers
     [Area("Admin")]
     public class BrandController : Controller
     {
-        IBrandService brandService;
+        private readonly IBrandService _brandService;
 
         public BrandController(IBrandService brandService)
         {
-            this.brandService = brandService;
+            _brandService = brandService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var brands = await brandService.GetAllBrandsAsync();
+            var brands = await _brandService.GetAllBrandsAsync();
             return View(brands);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Create()
         {
-            var brand = await brandService.GetBrandByIdAsync(id);
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Brand brand)
+        {
+            if (string.IsNullOrWhiteSpace(brand.BrandName))
+            {
+                TempData["ErrorMessage"] = "Tên thương hiệu không được bỏ trống.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var result = await _brandService.CreateBrandAsync(brand);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var brand = await _brandService.GetBrandByIdAsync(id);
+            if (brand == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy thương hiệu.";
+                return RedirectToAction(nameof(Index));
+            }
             return View(brand);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details(Brand brand)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Brand brand)
         {
-            if (await brandService.EditBrandAsync(brand))
+            if (string.IsNullOrWhiteSpace(brand.BrandName))
             {
-                TempData["SuccessMessage"] = "Thay đôi thương hiệu thành công!";
-                return RedirectToAction("Index", "Home", new { area = "Admin" });
+                TempData["ErrorMessage"] = "Tên thương hiệu không được bỏ trống.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var result = await _brandService.EditBrandAsync(brand);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
             }
             else
             {
-                TempData["ErrorMessage"] = "Thay đổi thương hiệu thất bại!";
-                return View(brand);
+                TempData["ErrorMessage"] = result.Message;
             }
-            return View();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _brandService.DeleteBrandAsync(id);
+            if (result.IsSuccess)
+            {
+                TempData["SuccessMessage"] = result.Message;
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

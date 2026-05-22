@@ -8,6 +8,8 @@ namespace ElectriStore_BaseProject.Repositories.Brands
 
         Task<Brand?> GetBrandByIdAsync(int id);
 
+        Task<Brand?> GetBrandByNameAsync(string name);
+
         Task<bool> CreateNewBrand(Brand brand);
 
         Task<bool> EditBrand(Brand brand); 

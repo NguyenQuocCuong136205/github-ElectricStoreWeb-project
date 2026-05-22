@@ -1,0 +1,14 @@
+using ElectriStore_BaseProject.Models;
+
+namespace ElectriStore_BaseProject.Repositories.Categories
+{
+    public interface ICategoryRepository
+    {
+        Task<IEnumerable<Category>> GetAllCategoriesAsync();
+        Task<Category?> GetCategoryByIdAsync(int id);
+        Task<Category?> GetCategoryByNameAsync(string name);
+        Task<bool> CreateCategoryAsync(Category category);
+        Task<bool> EditCategoryAsync(Category category);
+        Task<bool> DeleteCategoryAsync(int id);
+    }
+}

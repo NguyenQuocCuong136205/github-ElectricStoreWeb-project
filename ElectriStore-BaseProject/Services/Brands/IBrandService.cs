@@ -1,4 +1,5 @@
-﻿using ElectriStore_BaseProject.Models;
+using ElectriStore_BaseProject.DTOs.Brands;
+using ElectriStore_BaseProject.Models;
 
 namespace ElectriStore_BaseProject.Services.Brands
 {
@@ -8,10 +9,12 @@ namespace ElectriStore_BaseProject.Services.Brands
 
         Task<Brand?> GetBrandByIdAsync(int id);
 
-        Task<bool> CreateBrandAsync(Brand brand);
+        Task<Brand?> GetBrandByNameAsync(string name);
 
-        Task<bool> EditBrandAsync(Brand brand);
+        Task<BrandResultDTO> CreateBrandAsync(Brand brand);
 
-        Task<bool> DeleteBrandAsync(int id);
+        Task<BrandResultDTO> EditBrandAsync(Brand brand);
+
+        Task<BrandResultDTO> DeleteBrandAsync(int id);
     }
 }
