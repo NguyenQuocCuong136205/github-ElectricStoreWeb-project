@@ -31,43 +31,45 @@
     <link rel="stylesheet" href="~/ElectriStore_BaseProject.styles.css" asp-append-version="true" />
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
         }
 
         /* Long Premium Search Bar Styling */
         .search-group {
-            border: 2px solid #ced4da !important;
-            border-radius: 6px !important;
-            overflow: hidden !important;
-            background-color: #ffffff;
-            transition: all 0.2s ease-in-out;
+        border: 2px solid #ced4da !important;
+        border-radius: 6px !important;
+        overflow: hidden !important;
+        background-color: #ffffff;
+        transition: all 0.2s ease-in-out;
         }
+
         .search-group:focus-within {
-            border-color: #0d6efd !important;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.18) !important;
+        border-color: #0d6efd !important;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.18) !important;
         }
 
 
         /* Dynamic Category Item Hover Effects */
         .category-item-link {
-            font-size: 13.5px;
-            color: #495057 !important;
-            background-color: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.05) !important;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+        font-size: 13.5px;
+        color: #495057 !important;
+        background-color: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
         }
+
         .category-item-link:hover {
-            background-color: #e8f0fe !important;
-            color: #0d6efd !important;
-            border-color: rgba(13, 110, 253, 0.25) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.08) !important;
+        background-color: #e8f0fe !important;
+        color: #0d6efd !important;
+        border-color: rgba(13, 110, 253, 0.25) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.08) !important;
         }
-        
+
         .hover-primary:hover {
-            color: #0d6efd !important;
+        color: #0d6efd !important;
         }
     </style>
 </head>
@@ -75,10 +77,10 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom box-shadow mb-3 py-3">
             <div class="container d-flex flex-column align-items-stretch gap-2">
-                
+
                 <!-- ROW 1: Brand Logo, Search Bar, and Authentication Links -->
                 <div class="d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap gap-3">
-                    
+
                     <!-- Brand Brand Logo -->
                     <a class="navbar-brand fw-bold text-primary fs-3 d-flex align-items-center mb-0" asp-area="" asp-controller="Home" asp-action="Index" style="letter-spacing: -0.5px;">
                         <i class="bi bi-lightning-charge-fill me-1 text-primary"></i>ElectriStore
@@ -96,47 +98,28 @@
 
                     <!-- Authentication Block -->
                     <div class="d-flex align-items-center gap-2">
-                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <!-- Authenticated View -->
                             <a class="btn btn-outline-primary rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-2" asp-area="" asp-controller="User" asp-action="Information" style="font-size: 14.5px;">
                                 <i class="bi bi-person-circle fs-5"></i>Tài khoản (@User.Identity.Name)
                             </a>
-                            <a class="btn btn-outline-primary rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-2" asp-area="Admin" asp-controller="Home" asp-action="Index" style="font-size: 14.5px;">
-                                <i class="bi bi-person-circle fs-5"></i>ADMIN
-                            </a>
                         }
-                            else if (User.Identity != null && User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
-                            {
-                                <a class="btn btn-outline-primary rounded-pill px-3 py-2 fw-semibold d-flex align-items-center gap-2" asp-area="" asp-controller="User" asp-action="Information" style="font-size: 14.5px;">
-                                <i class="bi bi-person-circle fs-5"></i>Tài khoản (@User.Identity.Name)
-                                </a>
-                            }
-                            else
-                            {
-                                <!-- Unauthenticated View -->
-                                <a class="btn btn-light rounded-pill px-3 py-2 fw-medium text-dark border-0" asp-area="" asp-controller="User" asp-action="Login" style="font-size: 14.5px;">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập
-                                </a>
-                                <a class="btn btn-primary rounded-pill px-3 py-2 fw-semibold" asp-area="" asp-controller="User" asp-action="Register" style="font-size: 14.5px;">
-                                    <i class="bi bi-person-plus me-1"></i>Đăng ký
-                                </a>
-                            }
                     </div>
                 </div>
 
                 <!-- ROW 2: Dynamic Database-Driven Categories and Store Links -->
                 <div class="d-flex align-items-center justify-content-between border-top pt-2 mt-2 flex-wrap gap-2">
-                    
+
                     <!-- Category quick links container -->
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <span class="text-secondary small fw-bold text-uppercase me-1" style="letter-spacing: 0.5px; font-size: 11px;">Danh mục:</span>
-                        
+
                         @foreach (var cat in dbCategories)
                         {
                             var catName = cat.Name ?? "Danh mục";
                             string imgUrl = "https://cdn-icons-png.flaticon.com/512/709/709612.png"; // default icon
-                            
+
                             // Dynamically map corresponding images based on case-insensitive matches
                             if (catName.Contains("điện thoại", StringComparison.OrdinalIgnoreCase) || catName.Contains("phone", StringComparison.OrdinalIgnoreCase))
                             {
@@ -169,15 +152,28 @@
                             </a>
                         }
                     </div>
+                </div>
 
-                            @* <div class="d-flex align-items-center gap-3 small text-secondary fw-medium">
-                                <a asp-controller="Home" asp-action="Privacy" class="text-secondary text-decoration-none hover-primary">
-                                    <i class="bi bi-shield-check me-1"></i>Chính sách bảo mật
-                                </a>
-                                <span class="text-muted">|</span>
-                                <span><i class="bi bi-telephone-fill me-1 text-success"></i>Hotline: 1800.1060</span>
-                            </div> *@
+                <!-- ROW 3: navigate bar for admin check -->
+                <div class="d-flex align-items-center justify-content-between border-top pt-2 mt-2 flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <span class="text-secondary small fw-bold text-uppercase me-1" style="letter-spacing: 0.5px; font-size: 11px;">Kiểm tra:</span>
+
+                        <a class="btn btn-light rounded-pill px-3 py-2 fw-medium text-dark border-0" asp-area="Admin" asp-controller="Category" asp-action="Index" style="font-size: 14.5px;">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Danh mục
+                        </a>
+                        <a class="btn btn-light rounded-pill px-3 py-2 fw-medium text-dark border-0" asp-area="Admin" asp-controller="Brand" asp-action="Index" style="font-size: 14.5px;">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Thương hiệu
+                        </a>
+                        <a class="btn btn-light rounded-pill px-3 py-2 fw-medium text-dark border-0" asp-area="Admin" asp-controller="Country" asp-action="Index" style="font-size: 14.5px;">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Quốc gia
+                        </a>
+                        <a class="btn btn-light rounded-pill px-3 py-2 fw-medium text-dark border-0" asp-area="Admin" asp-controller="Supplier" asp-action="Index" style="font-size: 14.5px;">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Nhà cung cấp
+                        </a>
+
                     </div>
+                </div>
 
             </div>
         </nav>
@@ -200,7 +196,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
-    @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         // Cấu hình định dạng cửa sổ Toast nhỏ ở góc trên bên phải
         const Toast = Swal.mixin({
@@ -236,7 +232,7 @@
                 });
             </text>
         }
-    </script> *@
+    </script>
 
 </body>
 </html>

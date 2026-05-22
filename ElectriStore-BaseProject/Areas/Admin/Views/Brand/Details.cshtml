@@ -1,19 +1,30 @@
-@{
-    ViewData["Title"] = "Admin Page";
-}
+﻿@model ElectriStore_BaseProject.Models.Brand
 
-@* Kiểm tra đăng nhập và quyền Admin trước khi hiển thị trang quản trị *@
-@if (User.Identity == null || !User.Identity.IsAuthenticated || !User.IsInRole("Admin"))
-{
-    TempData["ErrorMessage"] = "Tài khoản không được xác minh hoặc không có quyền truy cập Admin!";
-    Context.Response.Redirect("/");
-    return;
+@{
+    ViewData["Title"] = "Brand details page";
 }
 
 <!DOCTYPE html>
-<html lang="en">
-    <body>
-        <h2>This is admin home page</h2>
+<html lang="vi">
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
+
+<body>
+    <form asp-action="Details" method="post">
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3 py-2 small"></div>
+    
+        <div class="mb-3">
+            <label asp-for="BrandName" class="form-label small fw-bold">Tên thương hiệu</label>
+            <input asp-for="BrandName" class="form-control" placeholder="Nhập tên thương hiệu mới..." />
+            <span asp-validation-for="BrandName" class="text-danger small"></span>
+        </div>
+        <!-- Submit Button -->
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary py-2">Thay đổi</button>
+        </div>
+    </form>
 
     <!-- notification -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -53,5 +64,5 @@
             </text>
         }
     </script>
-    </body>
+</body>
 </html>

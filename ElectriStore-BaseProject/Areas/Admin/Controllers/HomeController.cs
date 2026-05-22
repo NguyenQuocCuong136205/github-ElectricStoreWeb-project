@@ -19,11 +19,9 @@ namespace ElectriStore_BaseProject.Areas.Admin.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> ShowProductById()
-        //{
-        //    int id = 1;
-        //    var product = await productRepository.GetProductDTOByIdAsync(id);
-        //    return View(product);
-        //}
+        public async Task<IActionResult> ShowProductById()
+        {
+            return View();
+        }
     }
 }

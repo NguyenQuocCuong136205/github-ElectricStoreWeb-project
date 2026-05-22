@@ -1,7 +1,9 @@
 using ElectriStore_BaseProject.Models;
+using ElectriStore_BaseProject.Repositories.Brands;
 using ElectriStore_BaseProject.Repositories.Product;
 using ElectriStore_BaseProject.Repositories.Products;
 using ElectriStore_BaseProject.Repositories.Users;
+using ElectriStore_BaseProject.Services.Brands;
 using ElectriStore_BaseProject.Services.Products;
 using ElectriStore_BaseProject.Services.Users;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -22,10 +24,12 @@ builder.Services.AddDbContext<ElectronicStoreContext>(options => options.UseSqlS
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductDTORepository, ProductDTORepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 
 // thêm services vào DI container
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Đăng ký Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

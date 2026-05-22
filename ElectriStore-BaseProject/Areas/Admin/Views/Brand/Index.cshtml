@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ElectriStore_BaseProject.Models.Brand>
+
+@{
+    ViewData["Title"] = "Brand management page";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div>
+    <a>Thêm mới thương hiệu</a>
+</div>
+@foreach (var item in Model)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@item.BrandName</h5>
+            <a href="@Url.Action("Details", "Brand", new { id = item.Id })" class="btn btn-primary">Edit</a>
+            <a href="@Url.Action("Delete", "Brand", new { id = item.Id })" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+}

@@ -7,5 +7,11 @@ namespace ElectriStore_BaseProject.Repositories.Brands
         Task<IEnumerable<Brand>> GetAllBrandsAsync();
 
         Task<Brand?> GetBrandByIdAsync(int id);
+
+        Task<bool> CreateNewBrand(Brand brand);
+
+        Task<bool> EditBrand(Brand brand); 
+
+        Task<bool> DeleteBrand(int id);
     }
 }
